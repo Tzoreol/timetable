@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<h:form>
+    <c:if test="#{not user.connected}">
+        <h:outputLabel for="login" value="Login : " />
+        <!-- This input use a login parameter from a user managed bean -->
+        <h:inputText id="login" value="#{user.login}">
+            <!-- Login must be alphabetical, minimum 5 characters length and maximum 32 -->
+            <f:validateRegex pattern="^[a-zA-Z]{5,32}$" for="login" />
+        </h:inputText>
+        <!-- Message to display errors on the login field -->
+        <h:message for="login" /><br />
+
+        <h:outputLabel for="password" value="Mot de passe : " />
+        <h:inputSecret id="password" value="#{user.password}" >
+            <f:validateRegex pattern="^(?=.*[A-Z])(?=.*[!@#$_])(?=.*[0-9])(?=.*[a-z]).{8,32}$" for="password" />
+        </h:inputSecret>
+        <h:message for="password" /><br />
+
+        <!-- This button will call a method doLogin from a user managed bean -->
+        <h:commandButton action="#{user.doLogin()}" value="Connexion" />
+    </c:if>
+</h:form>
+</html>

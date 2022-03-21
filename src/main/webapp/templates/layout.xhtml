@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<!--    Nothing in the head but having the one from JSF (from the prefix h)
+        bring everything we need for handling asynchronous event so it's better
+        to add it automatically -->
+<h:head></h:head>
+<h:body>
+    <!-- Visible header. Do not mix up with the head tag above -->
+    <header>
+        <!-- Will include our login form here -->
+        <ui:include src="/includes/login.xhtml"></ui:include>
+    </header>
+    <div id="content">
+        <!-- Placeholder for the content that will be defined in the main page -->
+        <ui:insert name="content" />
+    </div>
+</h:body>
+</html>

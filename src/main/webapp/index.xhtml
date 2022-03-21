@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<!-- Call the template -->
+<ui:composition template="templates/layout.xhtml">
+
+    <!-- Define what is in "content" that was declared in the template -->
+    <ui:define name="content">
+
+        <!--    The purpose of this block is the display a message if the user is not logged in
+                Remember that c:if does not allow alternative so we have to use c:choose
+                It acts like a switch loop with a c:when for each condition and a
+                c:otherwise for default behaviour -->
+        <c:choose>
+            <c:when test="#{user.connected}">
+                <!--    Two parts here:
+                            - A form that will save a course into the database
+                            - A table to display what is already in the database
+                -->
+                <h:form>
+                    <h:outputLabel for="startDateTime" value="Date et heure de début :" />
+                    <h:inputText id="startDateTime" value="#{course.startDateTime}">
+                        <f:validator validatorId="DateTimeValidator" />
+                    </h:inputText>
+                    <h:message for="startDateTime" /><br /><br/>
+
+                    <h:outputLabel for="duration" value="Durée :" />
+                    <h:inputText id="duration" value="#{course.duration}" />
+                    <h:message for="duration" /><br /><br/>
+
+                    <h:outputLabel for="room" value="Salle :" />
+                    <h:selectOneMenu id="room" value="#{course.room}">
+                        <f:selectItems value="#{course.getRooms()}" />
+                    </h:selectOneMenu>
+                    <h:message for="room" /><br /><br/>
+
+                    <h:message for="courseName" /><br />
+                    <h:outputLabel for="courseName" value="Cours :" />
+                    <h:inputText id="courseName" value="#{course.courseName}" />
+                    <h:message for="courseName" /><br />
+                    <h:commandButton action="#{course.saveCourse()}" value="Sauvegarder" />
+                </h:form><br /> <br/>
+                <h:dataTable value="#{course.getCourses()}" var="c">
+                    <h:column>
+                        <f:facet name="header">Début</f:facet>
+                        #{c.startDateTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Durée</f:facet>
+                        #{c.duration}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nom du cours</f:facet>
+                        #{c.courseName}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Salle</f:facet>
+                        #{c.room}
+                    </h:column>
+                </h:dataTable>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="Veuillez vous connecter pour utiliser l'application" />
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+</ui:composition>
+</html>
